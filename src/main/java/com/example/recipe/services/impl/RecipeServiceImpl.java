@@ -9,18 +9,26 @@ import java.util.TreeMap;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
+
     private Map<Integer, Recipe> recipes = new TreeMap<>();
-    public static int recipeId = 0;
-
-
+    public static int id = 0;
 
     @Override
-    public void addRecipe(Recipe recipe) {
-        recipes.put(recipeId++, recipe);
+    public long addRecipe(Recipe recipe) {
+
+        if ((recipes.containsKey(id))) {
+
+            throw new RuntimeException("Данный рецепт уже существует");
+        } else {
+            recipes.getOrDefault(id, recipe);
+            recipes.put(id, recipe);
+        }
+        return id++;
     }
 
     @Override
-    public Recipe getRecipe(int key) {
-        return recipes.get(key) ;
+    public Recipe getRecipe(long id) {
+        return recipes.get(id);
+
     }
 }

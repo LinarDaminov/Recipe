@@ -1,27 +1,32 @@
 package com.example.recipe.services.impl;
+
 import com.example.recipe.model.Ingredient;
 import com.example.recipe.services.IngredientService;
 import org.springframework.stereotype.Service;
+
 
 import java.util.*;
 
 @Service
 public class IngredientServiceImpl implements IngredientService {
-
-    public static int id=0;
-
-    private static Map<Integer, Ingredient> ingredients = new TreeMap<>();
+    private final Map<Long, Ingredient> ingredients = new TreeMap<>();
+    public static long id = 0;
 
 
     @Override
-    public void addIngredient(Ingredient ingredient) {
-        ingredients.getOrDefault(id++, ingredient);
-
+    public long addIngredient(Ingredient ingredient) {
+        if (ingredients.containsKey(id)) {
+            throw new RuntimeException("Данный ингредиент уже существует!");
+        } else {
+            ingredients.getOrDefault(id, ingredient);
+            ingredients.put(id, ingredient);
+        }
+        return id++;
     }
 
     @Override
-    public Ingredient getIngredient(int key) {
-        return ingredients.get(key);
+    public Ingredient getIngredient(long id) {
+        return ingredients.get(id);
 
     }
 }
