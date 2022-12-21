@@ -2,28 +2,27 @@ package com.example.recipe.services.impl;
 
 import com.example.recipe.model.Recipe;
 import com.example.recipe.services.RecipeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.Map;
 import java.util.TreeMap;
 
 @Service
-public class RecipeServiceImpl implements RecipeService {
+@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+public class RecipeServiceImpl extends RuntimeException implements RecipeService {
 
     private Map<Integer, Recipe> recipes = new TreeMap<>();
     public static int id = 0;
 
     @Override
-    public long addRecipe(Recipe recipe) {
+
+    public Recipe addRecipe(Recipe recipe) {
 
         if ((recipes.containsKey(id))) {
-
-            throw new RuntimeException("Данный рецепт уже существует");
-        } else {
-            recipes.getOrDefault(id, recipe);
-            recipes.put(id, recipe);
-        }
-        return id++;
+            recipes.getOrDefault(id, recipe);}
+        return recipe;
     }
 
     @Override
@@ -32,3 +31,4 @@ public class RecipeServiceImpl implements RecipeService {
 
     }
 }
+

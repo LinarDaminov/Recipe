@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-
 public class Recipe {
     private String recipeName;
     private int time;

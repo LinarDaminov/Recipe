@@ -1,30 +1,29 @@
 package com.example.recipe.controllers;
 
 import com.example.recipe.model.Recipe;
-import com.example.recipe.services.impl.RecipeServiceImpl;
+import com.example.recipe.services.RecipeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/recipe")
+@RequestMapping("/recipes")
 public class RecipeController {
-    private final RecipeServiceImpl recipeServiceImpl;
+    private final RecipeService recipeService;
 
-    public RecipeController(RecipeServiceImpl recipeServiceImpl) {
-        this.recipeServiceImpl = recipeServiceImpl;
+    public RecipeController(RecipeService recipeService) {
+        this.recipeService = recipeService;
     }
 
 
     @PostMapping
-
-    public ResponseEntity<Long> addRecipe(@RequestBody Recipe recipe) {
-        long recipeId = recipeServiceImpl.addRecipe(recipe);
+    public ResponseEntity<Recipe>  addRecipe(@RequestBody Recipe recipe) {
+       Recipe recipeId = recipeService.addRecipe(recipe);
         return ResponseEntity.ok().body(recipeId);
     }
 
     @GetMapping("/{id}")
     public Recipe getRecipe(@PathVariable("id") int id) {
-        Recipe getRecipe = recipeServiceImpl.getRecipe(id);
+        Recipe getRecipe = recipeService.getRecipe(id);
         return ResponseEntity.ok().body(getRecipe).getBody();
     }
 
