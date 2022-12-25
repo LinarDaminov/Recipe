@@ -1,10 +1,21 @@
 package com.example.recipe.services;
+
 import com.example.recipe.model.Ingredient;
 
+import java.util.Collection;
+import java.util.List;
+
 public interface IngredientService {
-    public Ingredient addIngredient(Ingredient ingredient);
+    Ingredient addIngredient(Ingredient ingredient);
 
 
-    public Ingredient getIngredient(long key);
+    Ingredient getIngredient(long id);
 
+
+    Ingredient removeIngredient(long id);
+
+    Ingredient editIngredient(long id, Ingredient newIngredient);
+
+
+    List<Ingredient> getAllIngredient();
 }
