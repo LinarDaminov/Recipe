@@ -3,6 +3,9 @@ package com.example.recipe.services.impl;
 import com.example.recipe.model.Ingredient;
 import com.example.recipe.services.IngredientAlreadyExistsException;
 import com.example.recipe.services.IngredientService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 
@@ -10,8 +13,13 @@ import java.util.*;
 
 @Service
 public class IngredientServiceImpl implements IngredientService {
-    private final Map<Long, Ingredient> ingredients = new TreeMap<>();
+    private final FileServiceIngrImpl fileService;
+    private Map<Long, Ingredient> ingredients = new TreeMap<>();
     public static long id = 0;
+
+    public IngredientServiceImpl(FileServiceIngrImpl fileService) {
+        this.fileService = fileService;
+    }
 
 
     @Override
@@ -19,6 +27,7 @@ public class IngredientServiceImpl implements IngredientService {
 
         ingredients.getOrDefault(id, ingredient);
         ingredients.put(id++, ingredient);
+        saveToFile();
         return ingredient;
 
     }
@@ -44,6 +53,7 @@ public class IngredientServiceImpl implements IngredientService {
     public Ingredient editIngredient(long id, Ingredient ingredient) {
         if (ingredients.containsKey(id)) {
             ingredients.put(id, ingredient);
+            saveToFile();
             return ingredient;
         }
         throw new IngredientAlreadyExistsException("Нет данного ингредиента!");
@@ -53,6 +63,26 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public List<Ingredient> getAllIngredient() {
         return new ArrayList<>(this.ingredients.values());
+    }
+
+
+    private void saveToFile() {
+        try {
+            String json = new ObjectMapper().writeValueAsString(ingredients);
+            fileService.saveToFile(json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void readFromFile() {
+        String json = fileService.readFromFile();
+        try {
+            ingredients = new ObjectMapper().readValue(json, new TypeReference<TreeMap<Long, Ingredient>>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 
