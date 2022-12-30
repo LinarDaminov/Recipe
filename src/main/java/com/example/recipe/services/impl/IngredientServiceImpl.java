@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service
@@ -73,6 +74,10 @@ public class IngredientServiceImpl implements IngredientService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+    @PostConstruct
+    private void init() {
+         readFromFile();
     }
 
     private void readFromFile() {
