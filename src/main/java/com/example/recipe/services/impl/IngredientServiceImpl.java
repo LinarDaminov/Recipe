@@ -1,6 +1,7 @@
 package com.example.recipe.services.impl;
 
 import com.example.recipe.model.Ingredient;
+import com.example.recipe.services.FileService;
 import com.example.recipe.services.IngredientAlreadyExistsException;
 import com.example.recipe.services.IngredientService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,11 +15,11 @@ import java.util.*;
 
 @Service
 public class IngredientServiceImpl implements IngredientService {
-    private final FileServiceIngrImpl fileService;
+    private final FileService fileService;
     private Map<Long, Ingredient> ingredients = new TreeMap<>();
     public static long id = 0;
 
-    public IngredientServiceImpl(FileServiceIngrImpl fileService) {
+    public IngredientServiceImpl(FileService fileService) {
         this.fileService = fileService;
     }
 

@@ -1,6 +1,7 @@
 package com.example.recipe.services.impl;
 
 import com.example.recipe.model.Recipe;
+import com.example.recipe.services.FileService;
 import com.example.recipe.services.IngredientAlreadyExistsException;
 import com.example.recipe.services.RecipeAlreadyExistsException;
 import com.example.recipe.services.RecipeService;
@@ -18,13 +19,14 @@ import java.util.TreeMap;
 @Service
 
 public class RecipeServiceImpl implements RecipeService {
-    private final FileServiceIngrImpl fileService;
+    private final FileService fileService;
     private Map<Long, Recipe> recipes = new TreeMap<>();
     public static long id = 0;
 
-    public RecipeServiceImpl(FileServiceIngrImpl fileService) {
+    public RecipeServiceImpl(FileService fileService) {
         this.fileService = fileService;
     }
+
 
     @Override
     public Recipe addRecipe(Recipe recipe) {

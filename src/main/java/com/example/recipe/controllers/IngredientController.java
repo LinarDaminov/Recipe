@@ -1,6 +1,7 @@
 package com.example.recipe.controllers;
 
 import com.example.recipe.model.Ingredient;
+import com.example.recipe.services.IngredientAlreadyExistsException;
 import com.example.recipe.services.IngredientService;
 import com.example.recipe.services.impl.IngredientServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +33,7 @@ public class IngredientController {
     )
     public ResponseEntity<?> addIngredient(@RequestBody Ingredient ingredient) {
         if (StringUtils.isBlank(ingredient.getName())) {
-            return ResponseEntity.badRequest().body("Название ингредиента пустое");
+            throw new IngredientAlreadyExistsException("Название ингредиента пустое!");
         }
         return ResponseEntity.ok(ingredientService.addIngredient(ingredient));
     }
