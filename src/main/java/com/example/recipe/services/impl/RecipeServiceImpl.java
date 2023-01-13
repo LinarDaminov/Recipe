@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -73,12 +75,13 @@ public class RecipeServiceImpl implements RecipeService {
         return new ArrayList<>(this.recipes.values());
     }
 
+
     private void saveToFile() {
         try {
             String json = new ObjectMapper().writeValueAsString(recipes);
-            fileService.saveToFile(json);
+           fileService.saveToFile(json);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -93,9 +96,8 @@ public class RecipeServiceImpl implements RecipeService {
             recipes = new ObjectMapper().readValue(json, new TypeReference<TreeMap<Long, Recipe>>() {
             });
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }
-
 

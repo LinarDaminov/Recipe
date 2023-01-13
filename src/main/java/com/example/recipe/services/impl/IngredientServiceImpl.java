@@ -8,9 +8,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
-
-
-import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service
@@ -73,22 +70,22 @@ public class IngredientServiceImpl implements IngredientService {
             String json = new ObjectMapper().writeValueAsString(ingredients);
             fileService.saveToFile(json);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
-    @PostConstruct
-    private void init() {
-         readFromFile();
-    }
+//    @PostConstruct
+//    private void init() {
+//        readFromFile();
+//    }
 
-    private void readFromFile() {
+        private void readFromFile() {
         String json = fileService.readFromFile();
         try {
             ingredients = new ObjectMapper().readValue(json, new TypeReference<TreeMap<Long, Ingredient>>() {
             });
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
-}
 
+}

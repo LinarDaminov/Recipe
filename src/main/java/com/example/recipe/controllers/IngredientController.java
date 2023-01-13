@@ -29,7 +29,7 @@ public class IngredientController {
 
     @PostMapping
     @Operation(
-           summary = "Добавление ингредиента  "
+            summary = "Добавление ингредиента  "
     )
     public ResponseEntity<?> addIngredient(@RequestBody Ingredient ingredient) {
         if (StringUtils.isBlank(ingredient.getName())) {
@@ -74,5 +74,6 @@ public class IngredientController {
 
         return ingredientService.getAllIngredient();
     }
+
 
 }

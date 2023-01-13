@@ -3,6 +3,7 @@ package com.example.recipe.services.impl;
 import com.example.recipe.services.FileService;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,7 +36,13 @@ public class FileServiceRecImpl implements FileService {
 
     }
 
-    private boolean cleanDataFile() {
+    @Override
+    public File getDataFile() {
+        return new File(dataFilePath + "/" + name2);
+    }
+
+    @Override
+    public boolean cleanDataFile() {
         try {
             Path path = Path.of(dataFilePath, name2);
             Files.deleteIfExists(path);
