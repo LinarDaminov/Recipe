@@ -3,12 +3,14 @@ package com.example.recipe.controllers;
 import com.example.recipe.model.Ingredient;
 import com.example.recipe.services.IngredientAlreadyExistsException;
 import com.example.recipe.services.IngredientService;
-import com.example.recipe.services.impl.IngredientServiceImpl;
+import com.example.recipe.services.IngredientServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -73,6 +75,11 @@ public class IngredientController {
     public List<Ingredient> getAll() {
 
         return ingredientService.getAllIngredient();
+    }
+
+    @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void importIngredients(@RequestParam("ingredients") MultipartFile ingredients) {
+        ingredientService.importIngredients(ingredients);
     }
 
 

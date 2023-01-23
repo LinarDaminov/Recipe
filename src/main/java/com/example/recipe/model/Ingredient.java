@@ -10,5 +10,8 @@ public class Ingredient {
     private int quantityOfIngredient;
     private String measurement;
 
-
+    @Override
+    public String toString() {
+        return name + '\'' + quantityOfIngredient +'\'' + measurement;
+    }
 }

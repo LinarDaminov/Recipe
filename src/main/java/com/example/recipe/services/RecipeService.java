@@ -1,6 +1,7 @@
 package com.example.recipe.services;
 
 import com.example.recipe.model.Recipe;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,5 +15,9 @@ public interface RecipeService {
     Recipe remove(long id);
 
     List<Recipe> getAllIngredient();
+    byte[] getAllInByte();
 
+    byte[] exportTxt();
+
+    void importRecipes(MultipartFile recipes);
 }

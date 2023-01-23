@@ -5,8 +5,11 @@ import com.example.recipe.model.Recipe;
 import com.example.recipe.services.RecipeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -63,5 +66,36 @@ public class RecipeController {
     public List<Recipe> getAll() {
 
         return recipeService.getAllIngredient();
+    }
+
+    @GetMapping(value = "/export")
+    public ResponseEntity<byte[]> downloadRecipes() {
+        byte[] bytes = recipeService.getAllInByte();
+        if (bytes == null) {
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .contentLength(bytes.length)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename =\"recipes.json\"")
+                .body(bytes);
+    }
+
+    @PostMapping(value = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void importRecipes(@RequestParam("recipes") MultipartFile recipes) {
+        recipeService.importRecipes(recipes);
+    }
+
+    @GetMapping("/export")
+    public ResponseEntity<byte[]> exportTxt() {
+        byte[] bytes = recipeService.exportTxt();
+        if (bytes == null) {
+            return ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.TEXT_PLAIN)
+                .contentLength(bytes.length)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename =\"info.txt\"")
+                .body(bytes);
     }
 }
