@@ -68,7 +68,7 @@ public class RecipeController {
         return recipeService.getAllIngredient();
     }
 
-    @GetMapping(value = "/export")
+    @GetMapping(value = "/download")
     public ResponseEntity<byte[]> downloadRecipes() {
         byte[] bytes = recipeService.getAllInByte();
         if (bytes == null) {
